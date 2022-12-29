@@ -1,0 +1,4 @@
+*.env
+ProjectSettings
+node_modules
+dist

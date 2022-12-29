@@ -1,0 +1,24 @@
+{
+  "name": "unity_builder",
+  "version": "1.0.0",
+  "description": "",
+  "bin": "src/index.js",
+  "scripts": {
+    "build": "pkg .",
+    "start": "cd dist && unityBuilder.exe",
+    "start:dev": "node src/index.js"
+  },
+  "pkg": {
+    "scripts": "src/**/*.js",
+    "targets": [
+      "node18-win-x64"
+    ],
+    "outputPath": "dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3"
+  }
+}
