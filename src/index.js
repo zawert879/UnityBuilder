@@ -90,14 +90,14 @@ function deploy() {
       textOnFailed: 'SSH failed',
     }
   )
-  exec(`rm ${process.env.PROJECT_NAME}_${process.env.VERSION}`, {
+  exec(`del ${process.env.PROJECT_NAME}_${process.env.VERSION}`, {
     textOnStart: 'rm',
     textOnFailed: 'rm failed',
   })
   log('Deploying Docker complete!')
 }
 function commitUpdateVersion() {
-  exec(`git commit -m 'update Version' ./ProjectSettings/ProjectSettings.asset`, {
+  exec(`git commit -m 'updateVersion' ./ProjectSettings/ProjectSettings.asset`, {
     textOnStart: 'Commit',
     textOnFailed: 'Commit failed',
   })
