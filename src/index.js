@@ -111,7 +111,7 @@ function all() {
   buildLinux()
   buildDocker()
   deploy()
-  commitUpdateVersion
+  commitUpdateVersion()
 }
 
 function runTask() {

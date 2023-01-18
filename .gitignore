@@ -1,4 +1,7 @@
+.idea
+
 *.env
 ProjectSettings
 node_modules
 dist
+
