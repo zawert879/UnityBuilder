@@ -5,7 +5,7 @@
   "bin": "src/index.js",
   "scripts": {
     "build": "pkg .",
-    "start": "cd dist && unityBuilder.exe",
+    "start": "unity_builder.exe",
     "start:dev": "node src/index.js"
   },
   "pkg": {

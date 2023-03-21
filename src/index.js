@@ -16,8 +16,10 @@ process.argv.forEach(arg => {
   }
 })
 
+process.env.BUILD_PATH = path.join(path.dirname(process.execPath), process.env.BUILD_PATH)
+
 if (!process.env.VERSION) {
-  const projectSettings = fs.readFileSync('./ProjectSettings/ProjectSettings.asset', 'utf8')
+  const projectSettings = fs.readFileSync(`${process.env.PROJECT_PATH}/ProjectSettings/ProjectSettings.asset`, 'utf8')
   let version = projectSettings.match(/bundleVersion:.*/gm)[0].split(': ')[1]
   versionSplitted = version.split('.')
   versionSplitted[2] = +versionSplitted[2] + 1
@@ -37,6 +39,7 @@ function log(text) {
   if (text != '') console.log(`\x1b[34m${text} \x1b[0m`)
 }
 function buildLinux() {
+  console.log(`${process.env.UNITY_APP} -batchmode -nographics -logfile Logs/build_linux.log -projectPath ${process.env.PROJECT_PATH} -bundleVersion ${process.env.VERSION} -buildPath ${process.env.BUILD_PATH}/${process.env.VERSION}/game-server.x86_64  -executeMethod ScriptedBuilds.Linux -quit`)
   exec(
     `${process.env.UNITY_APP} -batchmode -nographics -logfile Logs/build_linux.log -projectPath ${process.env.PROJECT_PATH} -bundleVersion ${process.env.VERSION} -buildPath ${process.env.BUILD_PATH}/${process.env.VERSION}/game-server.x86_64  -executeMethod ScriptedBuilds.Linux -quit`,
     {
@@ -54,7 +57,7 @@ function checkDocker() {
 }
 function buildDocker() {
   exec(
-    `docker build -f ./docker/linux/Dockerfile . --build-arg VERSION=${process.env.VERSION} -t ${process.env.PROJECT_NAME}:${process.env.VERSION} --platform linux/amd64`,
+    `docker build -f ${process.env.DOCKER_FILE} . --build-arg VERSION=${process.env.VERSION} -t ${process.env.PROJECT_NAME}:${process.env.VERSION} --platform linux/amd64`,
     {
       textOnStart: 'Building Docker!',
       textOnFailed: 'Building Docker failed',
@@ -97,7 +100,7 @@ function deploy() {
   log('Deploying Docker complete!')
 }
 function commitUpdateVersion() {
-  exec(`git commit -m 'updateVersion' ./ProjectSettings/ProjectSettings.asset`, {
+  exec(`git commit -m 'updateVersion' ${process.env.PROJECT_PATH}/ProjectSettings/ProjectSettings.asset`, {
     textOnStart: 'Commit',
     textOnFailed: 'Commit failed',
   })
